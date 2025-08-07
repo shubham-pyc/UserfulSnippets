@@ -29,13 +29,21 @@ def analyze_sql_file(file_path, model="hf.co/unsloth/gemma-3n-E4B-it-GGUF:UD-Q4_
 
         # Create prompt
         prompt = f"""
-Analyze this SQL statement for ETL purposes:
+Given the following SQL statement:
 
 {str(stmt)}
 
-Given this ETL give me the source table. Only give me the table name. 
-If there are multiple tables only give me the table names wiht \n character.
-if table is inbound table give it a name inbout.tablename, if table is outbound(insert or merge) give it a name of outbound.tablename
+Identify all table names used in the SQL statement.
+
+For each table:
+
+If the table is a source (used in SELECT, FROM, JOIN, etc.), format as: inbound.table_name
+
+If the table is a target (used in INSERT INTO, MERGE INTO, UPDATE, DELETE FROM), format as: outbound.table_name
+
+If multiple tables, output them as a list separated by the \n character, one per line.
+
+Only output the formatted table names. Do not include any additional explanation.
 """
 
         # Query Ollama
@@ -46,11 +54,12 @@ if table is inbound table give it a name inbout.tablename, if table is outbound(
 
         # print("Analysis:")
         output += response["message"]["content"].split("\n")
+        print(response["message"]["content"].split("\n"))
         # print("-" * 50)
     print(set(output))
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python sql_analyzer.py <sql_file>")
-        sys.exit(1)
-    
-    analyze_sql_file(sys.argv[1])
+    # if len(sys.argv) != 2:
+        # print("Usage: python sql_analyzer.py <sql_file>")
+        # sys.exit(1)
+    pth = "test.sql" 
+    analyze_sql_file(pth)
