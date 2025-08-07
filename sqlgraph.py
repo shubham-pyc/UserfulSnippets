@@ -37,11 +37,12 @@ Identify all table names used in the SQL statement.
 
 For each table:
 
-If the table is a source (used in SELECT, FROM, JOIN, etc.), format as: inbound.table_name
+If the table is a source (used in SELECT, FROM, JOIN, etc.), format as: inbound.databasename.schema.table_name
 
-If the table is a target (used in INSERT INTO, MERGE INTO, UPDATE, DELETE FROM), format as: outbound.table_name
+If the table is a target (used in INSERT INTO, MERGE INTO, UPDATE, DELETE FROM), format as: outbound.databasename.schema.table_name
 
 If multiple tables, output them as a list separated by the \n character, one per line.
+
 
 Only output the formatted table names. Do not include any additional explanation.
 """
